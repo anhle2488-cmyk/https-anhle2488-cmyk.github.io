@@ -1,152 +1,62 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    background: linear-gradient(135deg, #ffb6c1, #ff69b4, #ff1493);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Arial', sans-serif;
-    text-align: center;
-    padding: 20px;
-}
-
-.page {
-    display: none;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-}
-
-.active {
-    display: flex !important;
-}
-
-.container {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 50px 40px;
-    border-radius: 25px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    max-width: 500px;
-    width: 90%;
-    backdrop-filter: blur(10px);
-    border: 3px solid rgba(255, 255, 255, 0.8);
-}
-
-.heart {
-    font-size: 80px;
-    animation: heartbeat 1.5s ease-in-out infinite;
-    margin-bottom: 25px;
-}
-
-.title {
-    color: #e91e63;
-    font-size: 2.2em;
-    margin-bottom: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 10px 20px;
-    border-radius: 15px;
-}
-
-.title:hover {
-    background: rgba(255, 105, 180, 0.1);
-    transform: scale(1.05);
-}
-
-.subtitle {
-    color: #ff4081;
-    font-size: 2em;
-    margin-bottom: 30px;
-    font-weight: bold;
-}
-
-.wishes-container {
-    margin: 20px 0;
-}
-
-.wish {
-    font-size: 1.4em;
-    color: #ff4081;
-    margin: 15px 0;
-    padding: 15px;
-    background: linear-gradient(45deg, #fff0f5, #ffe4e6);
-    border-radius: 15px;
-    border: 2px solid #ff69b4;
-    font-weight: bold;
-    opacity: 0;
-    animation: wishSequence 1.5s ease-in-out forwards;
-}
-
-.final-message {
-    font-size: 1.8em;
-    color: #ff1493;
-    margin-top: 30px;
-    padding: 20px;
-    background: linear-gradient(45deg, #ffe4e6, #fff0f5);
-    border-radius: 15px;
-    border: 3px solid #ff69b4;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: none;
-}
-
-.final-message:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 25px rgba(255, 105, 180, 0.4);
-}
-
-@keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-}
-
-@keyframes wishSequence {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    20%, 80% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-}
-
-/* Responsive */
-@media (max-width: 480px) {
-    .container {
-        padding: 35px 25px;
-    }
+function nextPage() {
+    // Ẩn trang 1, hiện trang 2
+    document.getElementById('page1').classList.remove('active');
+    document.getElementById('page2').classList.add('active');
     
-    .title {
-        font-size: 1.8em;
-    }
+    // Hiện nút "Nhấn vào đây" sau khi lời chúc kết thúc
+    setTimeout(() => {
+        document.querySelector('.final-message').style.display = 'block';
+    }, 8000); // 8 giây sau khi lời chúc cuối cùng biến mất
+}
+
+function showFinalMessage() {
+    const finalMessage = document.querySelector('.final-message');
+    finalMessage.innerHTML = "Cậu là người bạn tuyệt vời nhất của tớ! 💝";
+    finalMessage.style.background = 'linear-gradient(45deg, #ff6b9d, #ff8eb4)';
+    finalMessage.style.color = 'white';
+    finalMessage.style.cursor = 'default';
     
-    .subtitle {
-        font-size: 1.6em;
-    }
+    // Tạo hiệu ứng trái tim bay
+    createHearts();
+}
+
+function createHearts() {
+    const hearts = ['💖', '💝', '💗', '💓', '💞'];
     
-    .wish {
-        font-size: 1.2em;
-        padding: 12px;
-    }
-    
-    .final-message {
-        font-size: 1.5em;
-        padding: 15px;
-    }
-    
-    .heart {
-        font-size: 60px;
+    for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.style.position = 'fixed';
+            heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
+            heart.style.animation = 'flyUp 3s linear forwards';
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '999';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    heart.remove();
+                }
+            }, 3000);
+        }, i * 150);
     }
 }
+
+// Thêm CSS cho hiệu ứng trái tim bay
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes flyUp {
+        0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-100vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
