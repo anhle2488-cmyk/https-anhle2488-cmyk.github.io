@@ -8,10 +8,9 @@ function createFlowerRain() {
         flower.className = 'flower';
         flower.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
         
-        // Vị trí ngẫu nhiên
         const startPosition = Math.random() * window.innerWidth;
-        const duration = 3 + Math.random() * 5; // 3-8 giây
-        const delay = Math.random() * 5; // delay 0-5 giây
+        const duration = 3 + Math.random() * 5;
+        const delay = Math.random() * 5;
         
         flower.style.left = startPosition + 'px';
         flower.style.animationDuration = duration + 's';
@@ -19,50 +18,48 @@ function createFlowerRain() {
         
         flowerRain.appendChild(flower);
         
-        // Xóa hoa sau khi rơi xong
         setTimeout(() => {
             flower.remove();
         }, (duration + delay) * 1000);
     }
     
-    // Tạo hoa mỗi 0.3 giây
     setInterval(createFlower, 300);
     
-    // Tạo 10 hoa ban đầu
     for (let i = 0; i < 10; i++) {
         setTimeout(createFlower, i * 100);
     }
 }
 
-// Chuyển đổi lời chúc
-function initMessageSystem() {
-    const messages = document.querySelectorAll('.message');
+// Chuyển đổi giữa các phần
+let currentSection = 1;
+const totalSections = 6;
+
+function initClickEvents() {
+    // Thêm sự kiện click cho phần đầu tiên
+    const greetingElement = document.querySelector('.main-greeting');
+    const wishElements = document.querySelectorAll('.wish-text');
     
-    messages.forEach(message => {
-        if (message.classList.contains('active')) {
-            message.addEventListener('click', handleMessageClick);
-        }
+    if (greetingElement) {
+        greetingElement.addEventListener('click', nextSection);
+    }
+    
+    wishElements.forEach(element => {
+        element.addEventListener('click', nextSection);
     });
 }
 
-function handleMessageClick(event) {
-    const currentMessage = event.currentTarget;
-    const nextMessageId = currentMessage.getAttribute('data-next');
+function nextSection() {
+    // Ẩn phần hiện tại
+    const currentElement = document.getElementById(`section${currentSection}`);
+    currentElement.classList.remove('active');
     
-    // Ẩn message hiện tại
-    currentMessage.classList.remove('active');
-    currentMessage.removeEventListener('click', handleMessageClick);
+    // Chuyển đến phần tiếp theo
+    currentSection++;
     
-    // Hiện message tiếp theo
-    const nextMessage = document.getElementById(nextMessageId) || 
-                       document.querySelector(`[data-next="${nextMessageId}"]`);
-    
-    if (nextMessage) {
+    if (currentSection <= totalSections) {
         setTimeout(() => {
-            nextMessage.classList.add('active');
-            if (nextMessageId !== 'final') {
-                nextMessage.addEventListener('click', handleMessageClick);
-            }
+            const nextElement = document.getElementById(`section${currentSection}`);
+            nextElement.classList.add('active');
         }, 300);
     }
 }
@@ -164,5 +161,5 @@ function showSurprise() {
 // Khởi tạo khi trang load
 document.addEventListener('DOMContentLoaded', function() {
     createFlowerRain();
-    initMessageSystem();
+    initClickEvents();
 });
