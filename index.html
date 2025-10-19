@@ -3,28 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chúc Mừng 20/10</title>
+    <title>Chúc mừng 20/10</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Trang 1 -->
-    <div class="page active" id="page1">
-        <div class="container">
-            <div class="heart">💖</div>
-            <h1 class="title" onclick="nextPage()">Gửi LHHG bét phờ ren của tớ</h1>
-        </div>
-    </div>
-
-    <!-- Trang 2 -->
-    <div class="page" id="page2">
-        <div class="container">
-            <div class="heart">🌸</div>
-            <h2 class="subtitle">Chúc cậu 20/10</h2>
-            
-            <div class="message-container">
-                <div class="message" id="message">Luôn xinh đẹp và rạng rỡ</div>
+    <div class="container">
+        <h1>Chúc mừng ngày 20/10 <span class="heart">❤</span></h1>
+        
+        <div class="message-container">
+            <div class="message message-1 active">
+                Cậu là người bạn tuyệt vời nhất của tớ 😊
+            </div>
+            <div class="message message-2">
+                Chúc cậu luôn xinh đẹp, hạnh phúc và thành công!
             </div>
         </div>
+        
+        <div class="controls">
+            <button id="toggleBtn">Xem lời chúc tiếp theo</button>
+        </div>
+        
+        <div class="flower flower-1">🌸</div>
+        <div class="flower flower-2">🌺</div>
+        <div class="flower flower-3">🌷</div>
+        <div class="flower flower-4">💐</div>
     </div>
 
     <script src="script.js"></script>
