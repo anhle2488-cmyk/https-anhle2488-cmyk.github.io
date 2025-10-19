@@ -1,84 +1,82 @@
-function showSurprise() {
-    // Tạo trang mới với nội dung đặc biệt
-    const newPageContent = `
-    <!DOCTYPE html>
-    <html lang="vi">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Bất Ngờ Nè!</title>
-        <style>
-            body {
-                background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb);
-                min-height: 100vh;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-family: Arial, sans-serif;
-                text-align: center;
-                margin: 0;
-                padding: 20px;
-            }
-            .surprise-container {
-                background: rgba(255, 255, 255, 0.95);
-                padding: 50px;
-                border-radius: 20px;
-                box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-                max-width: 500px;
-            }
-            .big-heart {
-                font-size: 100px;
-                animation: bounce 1s infinite;
-                margin-bottom: 20px;
-            }
-            .message {
-                font-size: 2em;
-                color: #e91e63;
-                font-weight: bold;
-                margin: 20px 0;
-            }
-            .special-message {
-                font-size: 1.5em;
-                color: #ff4081;
-                background: rgba(255, 105, 180, 0.1);
-                padding: 20px;
-                border-radius: 15px;
-                border: 2px solid #ff69b4;
-                margin: 20px 0;
-            }
-            @keyframes bounce {
-                0%, 100% { transform: scale(1); }
-                50% { transform: scale(1.2); }
-            }
-            .back-btn {
-                background: #ff6b9d;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                border-radius: 25px;
-                font-size: 1em;
-                cursor: pointer;
-                margin-top: 20px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="surprise-container">
-            <div class="big-heart">💖</div>
-            <div class="message">Bất Ngờ Nè! 🎉</div>
-            <div class="special-message">
-                "Cậu là người bạn tuyệt vời nhất của tớ ! hihi !"
-            </div>
-            <button class="back-btn" onclick="window.history.back()">
-                ← Quay lại
-            </button>
-        </div>
-    </body>
-    </html>
-    `;
+function nextPage() {
+    // Chuyển sang trang 2
+    document.getElementById('page1').classList.remove('active');
+    document.getElementById('page2').classList.add('active');
     
-    // Mở trang mới
-    const newWindow = window.open('', '_blank');
-    newWindow.document.write(newPageContent);
-    newWindow.document.close();
+    // Bắt đầu hiệu ứng lời chúc
+    setTimeout(startWishesAnimation, 1000);
 }
+
+function startWishesAnimation() {
+    const wishes = [
+        'wish1', 'wish2', 'wish3', 'wish4', 'wish5'
+    ];
+    
+    // Hiện lần lượt các lời chúc
+    wishes.forEach((wishId, index) => {
+        const wish = document.getElementById(wishId);
+        
+        // Hiện lời chúc
+        setTimeout(() => {
+            wish.style.animation = 'wishAppear 0.5s ease-in forwards';
+        }, index * 1500);
+        
+        // Ẩn lời chúc sau 1 giây
+        setTimeout(() => {
+            wish.style.animation = 'wishDisappear 0.5s ease-out forwards';
+        }, index * 1500 + 1000);
+    });
+    
+    // Hiện nút "Nhấn vào đây" sau khi tất cả lời chúc biến mất
+    setTimeout(() => {
+        document.getElementById('finalMessage').style.display = 'block';
+        document.getElementById('finalMessage').style.animation = 'fadeIn 0.8s ease-in forwards';
+    }, wishes.length * 1500 + 500);
+}
+
+function showFinalMessage() {
+    const finalMessage = document.getElementById('finalMessage');
+    finalMessage.innerHTML = "Cậu là người bạn tuyệt vời nhất của tớ! 💝";
+    finalMessage.style.background = 'linear-gradient(45deg, #ff6b9d, #ff8eb4)';
+    finalMessage.style.color = 'white';
+    finalMessage.style.cursor = 'default';
+    
+    // Tạo hiệu ứng hoa rơi
+    createFlowers();
+}
+
+function createFlowers() {
+    const flowers = ['🌸', '💮', '🏵️', '💐', '🌹', '🌺', '🌷'];
+    
+    for (let i = 0; i < 25; i++) {
+        setTimeout(() => {
+            const flower = document.createElement('div');
+            flower.className = 'flower';
+            flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+            flower.style.left = Math.random() * 100 + 'vw';
+            flower.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            flower.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            
+            document.body.appendChild(flower);
+            
+            // Tự động xóa sau 5 giây
+            setTimeout(() => {
+                if (flower.parentNode) {
+                    flower.remove();
+                }
+            }, 5000);
+        }, i * 200);
+    }
+}
+
+// Thêm CSS animation cho việc ẩn lời chúc
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes wishDisappear {
+        to {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+    }
+`;
+document.head.appendChild(style);
