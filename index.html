@@ -3,41 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chúc Mừng 20/10 - Gửi Bạn Thân!</title>
+    <title>Chúc Mừng 20/10</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Hiệu ứng rơi hoa -->
     <div id="flowerRain"></div>
     
     <div class="container">
-        <!-- Trái tim bên trái -->
         <div class="heart-left">💖</div>
         
-        <!-- Lời chúc ở giữa -->
         <div class="main-message">
-            <h1 class="main-title">Chúc cậu 20/10!</h1>
-            <p class="main-greeting">Gửi LHHG bét phờ ren tớ ! 👭</p>
-            
-            <div class="message-container">
-                <div class="message active" data-next="message2">
-                    <p>🌸 Luôn xinh đẹp và rạng rỡ</p>
+            <!-- Phần 1: Tiêu đề và lời chào -->
+            <div class="content-section active" id="section1">
+                <h1 class="main-title">Chúc cậu 20/10!</h1>
+                <p class="main-greeting clickable">Gửi LHHG bét phờ ren tớ ! 👭</p>
+            </div>
+
+            <!-- Phần 2: Lời chúc 1 -->
+            <div class="content-section" id="section2">
+                <div class="message-box">
+                    <p class="wish-text clickable">🌸 Luôn xinh đẹp và rạng rỡ</p>
                 </div>
-                
-                <div class="message" data-next="message3">
-                    <p>🌈 Mãi là tri kỷ của nhau</p>
+            </div>
+
+            <!-- Phần 3: Lời chúc 2 -->
+            <div class="content-section" id="section3">
+                <div class="message-box">
+                    <p class="wish-text clickable">🌈 Mãi là tri kỷ của nhau</p>
                 </div>
-                
-                <div class="message" data-next="message4">
-                    <p>🎊 Thành công trong học tập , cuộc sống</p>
+            </div>
+
+            <!-- Phần 4: Lời chúc 3 -->
+            <div class="content-section" id="section4">
+                <div class="message-box">
+                    <p class="wish-text clickable">🎊 Thành công trong học tập, cuộc sống</p>
                 </div>
-                
-                <div class="message" data-next="final">
-                    <p>✨ Hạnh phúc tràn đầy</p>
+            </div>
+
+            <!-- Phần 5: Lời chúc 4 -->
+            <div class="content-section" id="section5">
+                <div class="message-box">
+                    <p class="wish-text clickable">✨ Hạnh phúc tràn đầy</p>
                 </div>
-                
-                <div class="message final-message" id="final">
+            </div>
+
+            <!-- Phần 6: Nút chuyển trang -->
+            <div class="content-section" id="section6">
+                <div class="message-box">
                     <button class="surprise-btn" onclick="showSurprise()">
                         🎁 Nhấn vào đây!
                     </button>
@@ -45,7 +58,6 @@
             </div>
         </div>
 
-        <!-- Trái tim bên phải -->
         <div class="heart-right">💖</div>
     </div>
 
