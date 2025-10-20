@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #ffb6c1, #ff69b4, #ff1493);
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -54,69 +54,175 @@
             }
         }
 
+        /* Hiệu ứng pháo hoa */
+        #fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .firework {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: explode 1.5s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
         .container {
             text-align: center;
             width: 100%;
             max-width: 600px;
             margin: 0 auto;
             position: relative;
-            z-index: 2;
+            z-index: 3;
         }
 
         .main-message {
-            background: rgba(255, 255, 255, 0.98);
+            background: rgba(255, 255, 255, 0.95);
             padding: 40px 30px;
             border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.3),
+                0 0 50px rgba(255, 105, 180, 0.3);
             border: 3px solid rgba(255, 255, 255, 0.8);
             min-height: 300px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hiệu ứng ánh sáng nền */
+        .main-message::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 105, 180, 0.1),
+                rgba(255, 182, 193, 0.1),
+                transparent
+            );
+            animation: shimmer 3s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(0deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(360deg); }
         }
 
         .main-title {
             font-family: 'Dancing Script', cursive;
-            font-size: 2.5em;
+            font-size: 2.8em;
             color: #e91e63;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(45deg, #e91e63, #ff4081, #ec407a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .clickable {
-            font-size: 1.5em;
+            font-size: 1.6em;
             color: #ff4081;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 15px 25px;
-            border-radius: 15px;
-            background: rgba(255, 105, 180, 0.1);
-            margin: 10px 0;
+            transition: all 0.4s ease;
+            padding: 18px 30px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(255, 105, 180, 0.15), rgba(255, 182, 193, 0.1));
+            margin: 12px 0;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .clickable::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .clickable:hover::before {
+            left: 100%;
         }
 
         .clickable:hover {
-            background: rgba(255, 105, 180, 0.2);
-            transform: scale(1.05);
+            background: linear-gradient(135deg, rgba(255, 105, 180, 0.25), rgba(255, 182, 193, 0.2));
+            border-color: #ff69b4;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.3);
         }
 
         .surprise-btn {
-            background: linear-gradient(45deg, #ff6b9d, #ff8eb4);
+            background: linear-gradient(45deg, #ff6b9d, #ff8eb4, #ff6b9d);
             color: white;
             border: none;
-            padding: 15px 30px;
-            font-size: 1.2em;
+            padding: 18px 35px;
+            font-size: 1.3em;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
+            transition: all 0.4s ease;
+            box-shadow: 
+                0 5px 15px rgba(255, 107, 157, 0.4),
+                0 0 20px rgba(255, 107, 157, 0.3);
             font-weight: bold;
-            margin-top: 20px;
+            margin-top: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .surprise-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .surprise-btn:hover::before {
+            left: 100%;
         }
 
         .surprise-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.6);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 
+                0 10px 25px rgba(255, 107, 157, 0.6),
+                0 0 30px rgba(255, 107, 157, 0.4);
+            background: linear-gradient(45deg, #ff8eb4, #ff6b9d, #ff8eb4);
         }
 
         .hidden {
@@ -124,26 +230,90 @@
         }
 
         .fade-out {
-            animation: fadeOut 0.5s ease forwards;
+            animation: fadeOut 0.6s ease forwards;
         }
 
         .fade-in {
-            animation: fadeIn 0.5s ease forwards;
+            animation: fadeIn 0.6s ease forwards;
         }
 
         @keyframes fadeOut {
-            from { opacity: 1; transform: scale(1); }
-            to { opacity: 0; transform: scale(0.8); }
+            from { 
+                opacity: 1; 
+                transform: scale(1) translateY(0); 
+            }
+            to { 
+                opacity: 0; 
+                transform: scale(0.8) translateY(-20px); 
+            }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
+            from { 
+                opacity: 0; 
+                transform: scale(0.8) translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: scale(1) translateY(0); 
+            }
+        }
+
+        /* Hiệu ứng confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 4;
+            animation: confettiFall 3s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Hiệu ứng sao băng */
+        .shooting-star {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            animation: shoot 2s linear forwards;
+            box-shadow: 0 0 10px 2px white;
+        }
+
+        @keyframes shoot {
+            0% {
+                transform: translateX(-100px) translateY(-100px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100vw) translateY(100vh);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
     <div id="flowerRain"></div>
+    <div id="fireworks"></div>
     
     <div class="container">
         <div class="main-message">
@@ -193,7 +363,7 @@
         // Hiệu ứng rơi hoa
         function createFlowerRain() {
             const flowerRain = document.getElementById('flowerRain');
-            const flowers = ['🌸', '🌺', '🌷', '💐', '🌼'];
+            const flowers = ['🌸', '🌺', '🌷', '💐', '🌼', '🌹', '🌻'];
             
             function createFlower() {
                 const flower = document.createElement('div');
@@ -201,23 +371,107 @@
                 flower.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
                 
                 const startPosition = Math.random() * window.innerWidth;
-                const duration = 3 + Math.random() * 5;
+                const duration = 4 + Math.random() * 6;
                 
                 flower.style.left = startPosition + 'px';
                 flower.style.animationDuration = duration + 's';
+                flower.style.fontSize = (15 + Math.random() * 15) + 'px';
                 
                 flowerRain.appendChild(flower);
                 
                 setTimeout(() => flower.remove(), duration * 1000);
             }
             
-            setInterval(createFlower, 300);
+            setInterval(createFlower, 200);
         }
 
-        // Chuyển bước
+        // Hiệu ứng pháo hoa
+        function createFireworks() {
+            const fireworks = document.getElementById('fireworks');
+            
+            function createFirework() {
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight / 2;
+                
+                for (let i = 0; i < 50; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'firework';
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = 50 + Math.random() * 150;
+                    const tx = Math.cos(angle) * distance;
+                    const ty = Math.sin(angle) * distance;
+                    
+                    const hue = Math.random() * 360;
+                    const size = 2 + Math.random() * 4;
+                    
+                    particle.style.setProperty('--tx', tx + 'px');
+                    particle.style.setProperty('--ty', ty + 'px');
+                    particle.style.left = x + 'px';
+                    particle.style.top = y + 'px';
+                    particle.style.background = `hsl(${hue}, 100%, 65%)`;
+                    particle.style.width = size + 'px';
+                    particle.style.height = size + 'px';
+                    particle.style.boxShadow = `0 0 8px hsl(${hue}, 100%, 65%)`;
+                    
+                    fireworks.appendChild(particle);
+                    
+                    setTimeout(() => particle.remove(), 1500);
+                }
+            }
+            
+            setInterval(createFirework, 800);
+        }
+
+        // Hiệu ứng confetti
+        function createConfetti() {
+            const colors = ['#ff6b9d', '#ff8eb4', '#ff4081', '#e91e63', '#ec407a'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                const left = Math.random() * window.innerWidth;
+                const delay = Math.random() * 2;
+                const duration = 2 + Math.random() * 2;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                confetti.style.left = left + 'px';
+                confetti.style.animationDelay = delay + 's';
+                confetti.style.animationDuration = duration + 's';
+                confetti.style.background = color;
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), (duration + delay) * 1000);
+            }
+        }
+
+        // Hiệu ứng sao băng
+        function createShootingStar() {
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            
+            const startX = -100;
+            const startY = Math.random() * window.innerHeight / 2;
+            
+            star.style.left = startX + 'px';
+            star.style.top = startY + 'px';
+            
+            document.body.appendChild(star);
+            
+            setTimeout(() => star.remove(), 2000);
+        }
+
+        // Chuyển bước với hiệu ứng
         function nextStep(currentStep) {
             const currentElement = document.getElementById(`step${currentStep}`);
             const nextElement = document.getElementById(`step${currentStep + 1}`);
+            
+            // Tạo hiệu ứng pháo hoa khi chuyển bước
+            createFireworks();
+            createConfetti();
             
             // Hiệu ứng biến mất
             currentElement.classList.add('fade-out');
@@ -233,69 +487,95 @@
                     
                     setTimeout(() => {
                         nextElement.classList.remove('fade-in');
-                    }, 500);
+                    }, 600);
                 }
-            }, 500);
+            }, 600);
         }
 
-        // Trang bất ngờ
+        // Trang bất ngờ với hiệu ứng pháo hoa lớn
         function showSurprise() {
-            const newPage = `
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>Bất Ngờ!</title>
-                <style>
-                    body {
-                        background: linear-gradient(45deg, #ff9a9e, #fad0c4);
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        height: 100vh;
-                        margin: 0;
-                        font-family: 'Arial', sans-serif;
-                    }
-                    .content {
-                        background: white;
-                        padding: 40px;
-                        border-radius: 20px;
-                        text-align: center;
-                        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-                    }
-                    .big-text {
-                        font-size: 2em;
-                        color: #e91e63;
-                        margin-bottom: 20px;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="content">
-                    <div class="big-text">💖 Bất ngờ nè! 💖</div>
-                    <p style="font-size: 1.5em; color: #ff4081;">
-                        "Cậu là người bạn thân nhất của tớ!"
-                    </p>
-                    <button onclick="window.close()" style="
-                        background: #ff6b9d;
-                        color: white;
-                        border: none;
-                        padding: 10px 20px;
-                        border-radius: 20px;
-                        cursor: pointer;
-                        margin-top: 20px;
-                    ">Đóng</button>
-                </div>
-            </body>
-            </html>
-            `;
+            // Tạo pháo hoa lớn trước khi chuyển trang
+            for(let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    createFireworks();
+                    createConfetti();
+                }, i * 200);
+            }
             
-            const newWindow = window.open('', '_blank', 'width=500,height=400');
-            newWindow.document.write(newPage);
+            setTimeout(() => {
+                const newPage = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Bất Ngờ!</title>
+                    <style>
+                        body {
+                            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100vh;
+                            margin: 0;
+                            font-family: 'Quicksand', sans-serif;
+                            overflow: hidden;
+                        }
+                        .content {
+                            background: rgba(255, 255, 255, 0.95);
+                            padding: 50px;
+                            border-radius: 25px;
+                            text-align: center;
+                            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                            border: 3px solid rgba(255, 255, 255, 0.8);
+                            backdrop-filter: blur(10px);
+                        }
+                        .big-text {
+                            font-size: 2.5em;
+                            color: #e91e63;
+                            margin-bottom: 20px;
+                            font-family: 'Dancing Script', cursive;
+                        }
+                        .message {
+                            font-size: 1.8em;
+                            color: #ff4081;
+                            font-weight: bold;
+                        }
+                        .close-btn {
+                            background: linear-gradient(45deg, #ff6b9d, #ff8eb4);
+                            color: white;
+                            border: none;
+                            padding: 12px 25px;
+                            border-radius: 25px;
+                            cursor: pointer;
+                            margin-top: 20px;
+                            font-weight: bold;
+                            transition: all 0.3s ease;
+                        }
+                        .close-btn:hover {
+                            transform: translateY(-2px);
+                            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="content">
+                        <div class="big-text">💖 Bất ngờ nè! 💖</div>
+                        <p class="message">"Cậu là người bạn thân nhất của tớ!"</p>
+                        <button class="close-btn" onclick="window.close()">Đóng</button>
+                    </div>
+                </body>
+                </html>
+                `;
+                
+                const newWindow = window.open('', '_blank', 'width=600,height=400');
+                newWindow.document.write(newPage);
+            }, 1000);
         }
 
         // Khởi tạo
         document.addEventListener('DOMContentLoaded', function() {
             createFlowerRain();
+            createFireworks();
+            setInterval(createShootingStar, 3000);
         });
     </script>
 </body>
