@@ -84,13 +84,49 @@
             }
         }
 
+        /* Hiệu ứng hoa nở */
+        #flowerBloom {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .blooming-flower {
+            position: absolute;
+            font-size: 0px;
+            animation: bloom 2s ease-out forwards;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+
+        @keyframes bloom {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+                font-size: 0px;
+            }
+            50% {
+                transform: scale(1.2) rotate(180deg);
+                opacity: 1;
+                font-size: var(--flower-size);
+            }
+            100% {
+                transform: scale(1) rotate(360deg);
+                opacity: 0.8;
+                font-size: var(--flower-size);
+            }
+        }
+
         .container {
             text-align: center;
             width: 100%;
             max-width: 600px;
             margin: 0 auto;
             position: relative;
-            z-index: 3;
+            z-index: 4;
         }
 
         .main-message {
@@ -265,7 +301,7 @@
             width: 10px;
             height: 10px;
             pointer-events: none;
-            z-index: 4;
+            z-index: 5;
             animation: confettiFall 3s linear forwards;
         }
 
@@ -309,11 +345,41 @@
                 opacity: 0;
             }
         }
+
+        /* Hiệu ứng chuyển cảnh hoa nở */
+        .scene-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 105, 180, 0.1);
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0;
+            animation: sceneTransition 1.5s ease-in-out;
+        }
+
+        @keyframes sceneTransition {
+            0% {
+                opacity: 0;
+                backdrop-filter: blur(0px);
+            }
+            50% {
+                opacity: 1;
+                backdrop-filter: blur(20px);
+            }
+            100% {
+                opacity: 0;
+                backdrop-filter: blur(0px);
+            }
+        }
     </style>
 </head>
 <body>
     <div id="flowerRain"></div>
     <div id="fireworks"></div>
+    <div id="flowerBloom"></div>
     
     <div class="container">
         <div class="main-message">
@@ -423,6 +489,34 @@
             setInterval(createFirework, 800);
         }
 
+        // Hiệu ứng hoa nở khi chuyển cảnh
+        function createFlowerBloom(count = 15) {
+            const flowerBloom = document.getElementById('flowerBloom');
+            const flowers = ['🌸', '🌺', '🌷', '💐', '🌼', '🌹', '🌻', '💮', '🏵️'];
+            
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const flower = document.createElement('div');
+                    flower.className = 'blooming-flower';
+                    flower.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
+                    
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight;
+                    const size = 30 + Math.random() * 50;
+                    const delay = Math.random() * 0.5;
+                    
+                    flower.style.left = x + 'px';
+                    flower.style.top = y + 'px';
+                    flower.style.setProperty('--flower-size', size + 'px');
+                    flower.style.animationDelay = delay + 's';
+                    
+                    flowerBloom.appendChild(flower);
+                    
+                    setTimeout(() => flower.remove(), 2000 + delay * 1000);
+                }, i * 100);
+            }
+        }
+
         // Hiệu ứng confetti
         function createConfetti() {
             const colors = ['#ff6b9d', '#ff8eb4', '#ff4081', '#e91e63', '#ec407a'];
@@ -464,12 +558,25 @@
             setTimeout(() => star.remove(), 2000);
         }
 
+        // Hiệu ứng chuyển cảnh
+        function createSceneTransition() {
+            const transition = document.createElement('div');
+            transition.className = 'scene-transition';
+            document.body.appendChild(transition);
+            
+            setTimeout(() => {
+                transition.remove();
+            }, 1500);
+        }
+
         // Chuyển bước với hiệu ứng
         function nextStep(currentStep) {
             const currentElement = document.getElementById(`step${currentStep}`);
             const nextElement = document.getElementById(`step${currentStep + 1}`);
             
-            // Tạo hiệu ứng pháo hoa khi chuyển bước
+            // Tạo hiệu ứng chuyển cảnh
+            createSceneTransition();
+            createFlowerBloom(20); // Hoa nở nhiều hơn
             createFireworks();
             createConfetti();
             
@@ -494,12 +601,15 @@
 
         // Trang bất ngờ với hiệu ứng pháo hoa lớn
         function showSurprise() {
-            // Tạo pháo hoa lớn trước khi chuyển trang
-            for(let i = 0; i < 5; i++) {
+            // Tạo hiệu ứng hoa nở và pháo hoa lớn trước khi chuyển trang
+            createSceneTransition();
+            createFlowerBloom(30); // Rất nhiều hoa nở
+            
+            for(let i = 0; i < 8; i++) {
                 setTimeout(() => {
                     createFireworks();
                     createConfetti();
-                }, i * 200);
+                }, i * 150);
             }
             
             setTimeout(() => {
@@ -568,7 +678,7 @@
                 
                 const newWindow = window.open('', '_blank', 'width=600,height=400');
                 newWindow.document.write(newPage);
-            }, 1000);
+            }, 1500);
         }
 
         // Khởi tạo
